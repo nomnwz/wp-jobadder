@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Jobadder API
- * Version: 1.0.7
+ * Version: 1.0.8
  * Author: BrandH2O
  * Text Domain: bh2ojaa
  */
@@ -13,7 +13,7 @@ if ( !defined( 'BH2OJAA_PLUGIN_FILE' ) ) {
 }
 
 if ( !defined( 'BH2OJAA_PLUGIN_VERSION' ) ) {
-	define( 'BH2OJAA_PLUGIN_VERSION', '1.0.7' );
+	define( 'BH2OJAA_PLUGIN_VERSION', '1.0.8' );
 }
 
 function bh2ojaa_option_exists( $option_name, $site_wide = false ) {
