@@ -374,12 +374,30 @@ class BH2OAJAA {
             'numberposts'   => -1
         ) );
 
+        $post_ids = array();
+
+        foreach ( $posts as $post ) {
+            $post_ids[] = $post->ID;
+        }
+
         $ads    = bh2ojaa_get_jobadder_job_ads();
+        $ad_ids = array();
 
         foreach ( $ads->items as $ad ) {
-            $ad_id  = $ad->adId;
-            $ad     = bh2ojaa_get_jobadder_job_ad( $ad_id );
+            $ad_id      = $ad->adId;
+            $ad         = bh2ojaa_get_jobadder_job_ad( $ad_id );
             bh2ojaa_insert_job_ad( $ad );
+            $ad_ids[]   = $ad_id;
+        }
+
+        $to_be_removed = array_diff( $post_ids, $ad_ids );
+
+        if ( is_array( $to_be_removed ) ) {
+            if ( count( $to_be_removed ) ) {
+                foreach ( $to_be_removed as $post_id ) {
+                    wp_delete_post( $post_id, true );
+                }
+            }
         }
     }
 }
