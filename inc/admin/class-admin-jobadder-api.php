@@ -369,17 +369,6 @@ class BH2OAJAA {
      * Refresh job ads
      */
     public function refresh_job_ads() {
-        $posts = get_posts( array(
-            'post_type'     => 'jobadder_job_ads',
-            'numberposts'   => -1
-        ) );
-
-        $post_ids = array();
-
-        foreach ( $posts as $post ) {
-            $post_ids[] = $post->ID;
-        }
-
         $ads    = bh2ojaa_get_jobadder_job_ads();
         $ad_ids = array();
 
@@ -390,13 +379,16 @@ class BH2OAJAA {
             $ad_ids[]   = $ad_id;
         }
 
-        $to_be_removed = array_diff( $post_ids, $ad_ids );
+        $posts = get_posts( array(
+            'post_type'     => 'jobadder_job_ads',
+            'numberposts'   => -1
+        ) );
 
-        if ( is_array( $to_be_removed ) ) {
-            if ( count( $to_be_removed ) ) {
-                foreach ( $to_be_removed as $post_id ) {
-                    wp_delete_post( $post_id, true );
-                }
+        foreach ( $posts as $post ) {
+            $ad_id = get_post_meta( $post->ID, 'jobAdId', true );
+
+            if ( !in_array( $ad_id, $ad_ids ) ) {
+                wp_delete_post( $post->ID );
             }
         }
     }
